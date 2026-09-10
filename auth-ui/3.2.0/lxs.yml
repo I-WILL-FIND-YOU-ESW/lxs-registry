@@ -1,0 +1,99 @@
+name: auth-ui
+domain: auth
+version: 3.2.0
+publisher: stuff8
+status: unverified
+license: mit
+summary: White-label signin, signup, and password recovery pages for the auth domain (Leptos SSR)
+targets:
+- darwin/arm64
+- linux/amd64
+artifacts:
+  darwin/arm64:
+    path: darwin-arm64/auth-ui
+    sha256: ded9d0df434f56d29a13005e9d67b4851a59dc05d91e32fbac0a506b0e2b2f39
+    size: 2935120
+  linux/amd64:
+    path: linux-amd64/auth-ui
+    sha256: ab6a7cf7ef81b39af4e4c7409d02e12d153a73f9a53b0b9b18f4194055ef66f2
+    size: 2108848
+contract:
+  version: 1
+  api: 'auth-ui pages: GET /signin, GET /signup, GET /forgot-password, GET /reset-password'
+  env:
+    required:
+    - SERVER_PORT
+    optional:
+    - AUTH_API_BASE
+    - AUTH_REDIRECT_URL
+    defaults: {}
+    fields: {}
+  db: none
+  network:
+    inbound:
+    - http
+    outbound:
+    - http
+  resources:
+    memory: 32m
+    disk: 32m
+    startup_seconds: 5
+runtime:
+  base: self-contained-static
+  libc: musl
+  dependencies: []
+provenance:
+  source: https://github.com/getecosphere/auth-ui.git
+  commit: 5e5f413bc49526caffe1a1bc41c426c131145cab
+  built_by: eco@0.4.1
+  built_at: 2026-09-10T16:55:49Z
+  target: x86_64-unknown-linux-musl
+release:
+- 3.2.0
+docs:
+- README.md
+- api.md
+- changelog.md
+- gotchas.md
+compose:
+  service:
+    name: auth-ui
+    port: 4201
+    grants:
+      secrets: []
+    config: {}
+    access:
+      routes:
+      - path: /signin
+        level: public
+        strip: ''
+        rewrite: ''
+        cookie: ''
+      - path: /signup
+        level: public
+        strip: ''
+        rewrite: ''
+        cookie: ''
+      - path: /forgot-password
+        level: public
+        strip: ''
+        rewrite: ''
+        cookie: ''
+      - path: /reset-password
+        level: public
+        strip: ''
+        rewrite: ''
+        cookie: ''
+      - path: /verify-email
+        level: public
+        strip: ''
+        rewrite: ''
+        cookie: ''
+      - path: /static/auth-ui.css
+        level: public
+        strip: ''
+        rewrite: ''
+        cookie: ''
+  auth:
+    email_verification:
+      enabled: null
