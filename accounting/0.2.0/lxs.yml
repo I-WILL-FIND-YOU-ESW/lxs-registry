@@ -1,0 +1,154 @@
+name: accounting
+domain: accounting
+version: 0.2.0
+publisher: stuff8
+status: unverified
+license: mit
+summary: 'General ledger: journal entries, trial balance, P&L, balance sheet, periods, audit trail for expense/income tracking and payment recording'
+targets:
+- darwin/arm64
+- linux/amd64
+artifacts:
+  linux/amd64:
+    path: linux-amd64/accounting
+    sha256: 38380c3fb0eb16b430c598978d102953456dba85dfe66dfe4437060369c5fb19
+    size: 3406216
+  darwin/arm64:
+    path: darwin-arm64/accounting
+    sha256: c2ebf7ce464eed1a6c5584d0688bd740a44a7800a1dcd9dc56b91af79faa4a43
+    size: 3970880
+contract:
+  version: 2
+  api: accounting REST API
+  env:
+    required:
+    - SERVER_PORT
+    optional:
+    - DATA_DIR
+    - JWT_SECRET
+    defaults:
+      DATA_DIR: .
+    fields:
+      SERVER_PORT:
+        required: true
+        type: int
+        default: ''
+        description: Port the accounting API listens on
+        group: ''
+        choices: []
+        min: 0.0
+        max: 0.0
+        pattern: ''
+        secret: false
+        managed: port
+        example: ''
+      DATA_DIR:
+        required: false
+        type: string
+        default: .
+        description: Directory for the SQLite ledger database file
+        group: ''
+        choices: []
+        min: 0.0
+        max: 0.0
+        pattern: ''
+        secret: false
+        managed: ''
+        example: ''
+      JWT_SECRET:
+        required: false
+        type: secret
+        default: ''
+        description: Optional shared secret if an estate requires signed journal postings
+        group: ''
+        choices: []
+        min: 0.0
+        max: 0.0
+        pattern: ''
+        secret: false
+        managed: ''
+        example: ''
+  db: sqlite-file
+  network:
+    inbound:
+    - http
+    outbound: []
+  resources:
+    memory: 32m
+    disk: 64m
+    startup_seconds: 2
+runtime:
+  base: self-contained-static
+  libc: musl
+  dependencies: []
+provenance:
+  source: ''
+  commit: ''
+  built_by: eco@0.4.1
+  built_at: 2026-09-18T11:03:25Z
+  target: x86_64-unknown-linux-musl
+release:
+- 0.2.0
+docs:
+- README.md
+- api.md
+- changelog.md
+compose:
+  service:
+    name: accounting-backend
+    port: 9090
+    grants:
+      secrets: []
+    config: {}
+    access:
+      routes:
+      - path: /api/accounts
+        level: public
+        strip: ''
+        rewrite: ''
+        cookie: ''
+      - path: /api/journal
+        level: public
+        strip: ''
+        rewrite: ''
+        cookie: ''
+      - path: /api/ledger/*
+        level: public
+        strip: ''
+        rewrite: ''
+        cookie: ''
+      - path: /api/trial-balance
+        level: public
+        strip: ''
+        rewrite: ''
+        cookie: ''
+      - path: /api/pnl
+        level: public
+        strip: ''
+        rewrite: ''
+        cookie: ''
+      - path: /api/balance-sheet
+        level: public
+        strip: ''
+        rewrite: ''
+        cookie: ''
+      - path: /api/periods
+        level: public
+        strip: ''
+        rewrite: ''
+        cookie: ''
+      - path: /api/audit/*
+        level: public
+        strip: ''
+        rewrite: ''
+        cookie: ''
+      - path: /api/health
+        level: public
+        strip: ''
+        rewrite: ''
+        cookie: ''
+  auth:
+    email_verification:
+      enabled: null
+attestation: yvURXpCsfwPsUxAEOuDo5b8J0KcUWGMOafMZHYIRp3TqcrWMZNi5FMJ3GKjzhHbbX8jf/6HT8uH1hLVcPSceBg==
+signing_key: qVfnrX+hYBsmPKKQWDwbnUrIsORvjMTxNO0YUR76Nv8=
