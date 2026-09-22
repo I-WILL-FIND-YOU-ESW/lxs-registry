@@ -1,0 +1,82 @@
+name: gameserver
+domain: gameserver
+version: 0.1.0
+publisher: kelastanpatembok
+status: unverified
+license: mit
+summary: 'Chronic Battle realtime game server (Colyseus WebSocket): rooms, PvP battles, and player/world persistence.'
+targets:
+- darwin/arm64
+- linux/amd64
+artifacts:
+  linux/amd64:
+    path: linux-amd64/gameserver
+    sha256: 2d25661ac974d9e0ae15e21018fd6b7e116fb3b53ba4dcbc6f6c1bd710658d6f
+    size: 96880768
+  darwin/arm64:
+    path: darwin-arm64/gameserver
+    sha256: 7c95cf730f295b98be0a59050761df928876b62a26d05c118f72f1442c45f9f5
+    size: 65757794
+contract:
+  version: 1
+  api: 'Colyseus WebSocket game server — GET /health, GET /cb-battles, WS / (rooms: cb_battle, room_scene)'
+  env:
+    required:
+    - SERVER_PORT
+    - MONGODB_URI
+    optional:
+    - JWT_SECRET
+    - CORS_ALLOWED_ORIGINS
+    defaults: {}
+    fields: {}
+  db: mongo
+  network:
+    inbound:
+    - http
+    outbound: []
+  resources:
+    memory: 256m
+    disk: 256m
+    startup_seconds: 10
+runtime:
+  base: self-contained-static
+  libc: musl
+  dependencies: []
+provenance:
+  source: github-kelastanpatembok:kelastanpatembok/gameserver-rwid.git
+  commit: c3943d1f084edf4f0bc729c6c5351cf1f15331bc
+  built_by: eco@0.4.2
+  built_at: 2026-09-22T23:20:42Z
+  target: x86_64-unknown-linux-musl
+release:
+- 0.1.0
+docs:
+- README.md
+- api.md
+- changelog.md
+compose:
+  service:
+    name: gameserver
+    port: 1004
+    grants:
+      secrets:
+      - JWT_SECRET
+      - MONGODB_URI
+    config: {}
+    access:
+      routes:
+      - path: /health
+        level: public
+        strip: ''
+        rewrite: ''
+        cookie: ''
+      - path: /cb-battles
+        level: public
+        strip: ''
+        rewrite: ''
+        cookie: ''
+  auth:
+    email_verification:
+      enabled: null
+attestation: LGPZH+OzZPwQFcTC7SPIIiqxlwt5eh3x/LmprgekXXny4MomW+olnNzm1iUDdvIhrnDQV2HM4ioRjdyMiCEsBg==
+signing_key: qVfnrX+hYBsmPKKQWDwbnUrIsORvjMTxNO0YUR76Nv8=
