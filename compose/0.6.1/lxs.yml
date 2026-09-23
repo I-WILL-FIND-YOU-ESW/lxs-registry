@@ -1,0 +1,80 @@
+name: compose
+domain: compose
+version: 0.6.1
+publisher: getecosphere
+status: unverified
+license: mit
+summary: Estate composer — say what work you do, see the app it could become, then compose it from reusable Linux Services and take the exact ecompose.yml home
+targets:
+- darwin/arm64
+- linux/amd64
+artifacts:
+  linux/amd64:
+    path: linux-amd64/compose
+    sha256: 01392e5be8347a52df08019a1d5a017e736534c99f60b359ee09c8f47e644927
+    size: 1436608
+  darwin/arm64:
+    path: darwin-arm64/compose
+    sha256: fe4d63225f3edfb30e45ec1b5179447a375abfc2c40f13641c5f3cc5bbece891
+    size: 1819824
+contract:
+  version: 1
+  api: 'compose UI: GET /compose-app (+ /compose-app/static/composer.{css,js} + /compose-app/static/wizard.js)'
+  env:
+    required:
+    - SERVER_PORT
+    optional: []
+    defaults: {}
+    fields: {}
+  db: none
+  network:
+    inbound:
+    - http
+    outbound: []
+  resources:
+    memory: 32m
+    disk: 32m
+    startup_seconds: 5
+runtime:
+  base: self-contained-static
+  libc: musl
+  dependencies: []
+provenance:
+  source: https://github.com/getecosphere/compose.git
+  commit: 1247fbeb698a1fe46975807120f1e77a8be0f647
+  built_by: eco@0.4.3
+  built_at: 2026-09-23T13:08:17Z
+  target: x86_64-unknown-linux-musl
+release:
+- 0.6.1
+docs:
+- README.md
+- api.md
+- changelog.md
+- examples.sh
+- gotchas.md
+- illustrations.md
+compose:
+  service:
+    name: compose
+    port: 4202
+    grants:
+      secrets: []
+    config: {}
+    access:
+      routes:
+      - path: /compose-app
+        level: public
+        strip: ''
+        rewrite: ''
+        cookie: ''
+      - path: /compose-app/*
+        level: public
+        strip: ''
+        rewrite: ''
+        cookie: ''
+  auth:
+    email_verification:
+      enabled: null
+attestation: 1bUuh3dFzCmNBeyItXrp0HLucJMfTJMRDYr3JTu9aT+9gV3dHJRX1J1XRnRcmAfzDko3EjKPRI3oAQHCpfc+Aw==
+signing_key: qVfnrX+hYBsmPKKQWDwbnUrIsORvjMTxNO0YUR76Nv8=
