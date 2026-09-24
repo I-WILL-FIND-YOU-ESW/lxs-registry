@@ -83,6 +83,23 @@ auth/
 - **Status** — an LXS version declares `status:` (`verified | unverified |
   deprecated | private | enterprise`). `verified` means it passed the platform's
   verification process — nothing is labelled verified until that process exists.
+
+## Private LXS
+
+Not every LXS is distributed here. An LXS that should not be public is published
+to a **private registry** instead — a separate git repo (e.g.
+`getecosphere/private-lxs-registry`) that follows the same layout:
+
+```bash
+eco lxs publish <name>@<version> --registry <owner/repo> --push
+eco lxs add <name> --address <owner/repo>     # consumer: pin the private registry
+```
+
+An estate binds one service to a private registry by declaring `registry:` in
+its `ecompose.yml` service block (or at the estate level); `eco lxs lock` records
+it in the committed `eco.lock`, so a fresh clone resolves the same binary. The
+registry's GitHub ACL is the access boundary; consumers need a token with read
+access. `compose` is the first such LXS (removed from this public registry).
 - **Contract version** — the `contract.version` is bumped on any breaking change
   to the contract, so estates can detect incompatibility before runtime.
 
